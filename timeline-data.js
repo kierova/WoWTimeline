@@ -143,7 +143,7 @@ const worldEvents = {
   42: {
     title: "The War Within",
     summary: "",
-    details: ""
+    details: "Test here."
   },
 };
 
@@ -179,4 +179,5 @@ const characterEvents = {
     summary: "Valeria departs Gilneas.",
     details: "With the Cataclysm having destroyed the Greymane Wall, Valeria ventures out into the unknown, intent on burgeoning her wisdom in the ways of the world."
   },
+
 };
