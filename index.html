@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World of Warcraft Timeline</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Crimson Text", serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e8ddd4;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 123, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 206, 84, 0.1) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="%23ffffff" opacity="0.03"/><circle cx="30" cy="25" r="0.3" fill="%2300d4ff" opacity="0.02"/><circle cx="70" cy="40" r="0.4" fill="%23ffce54" opacity="0.03"/><circle cx="50" cy="70" r="0.2" fill="%23ffffff" opacity="0.02"/><circle cx="90" cy="85" r="0.3" fill="%2300d4ff" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: "Cinzel", serif;
+      text-align: center;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin: 2rem 0 3rem;
+      background: linear-gradient(135deg, #00d4ff, #ffce54, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00d4ff, #ffce54, #00d4ff, transparent);
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .controls-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #e8ddd4;
+      border: 2px solid #00d4ff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: "Cinzel", serif;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .toggle-btn:hover {
+      background: linear-gradient(135deg, #16213e, #1a1a2e);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 196, 255, 0.3);
+    }
+
+    .toggle-btn.character-only {
+      border-color: #5dcea0;
+    }
+
+    .toggle-btn.character-only:hover {
+      box-shadow: 0 6px 20px rgba(93, 206, 160, 0.3);
+    }
+
+    .timeline {
+      position: relative;
+      margin: 3rem 0;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 6px;
+      background: linear-gradient(180deg, #00d4ff, #1a1a2e, #ffce54, #1a1a2e, #00d4ff);
+      transform: translateX(-50%);
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .event {
+      position: relative;
+      width: 45%;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.95));
+      border: 2px solid transparent;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 0.8s ease forwards;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #00d4ff, #ffce54);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 13px;
+      z-index: -1;
+    }
+
+    .event.character-event {
+      border-color: #5dcea0;
+    }
+
+    .event.character-event::after {
+      background: linear-gradient(135deg, #5dcea0, #27ae60);
+    }
+
+    .event.character-event::before {
+      background: radial-gradient(circle, #5dcea0, #1a1a2e) !important;
+      box-shadow: 0 0 0 3px #0a0a0f, 0 0 0 6px #5dcea0, 0 0 15px rgba(93, 206, 160, 0.5) !important;
+    }
+
+    .event:hover::after {
+      opacity: 0.1;
+    }
+
+    .event:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    }
+
+    .event-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .event h3 {
+      margin: 0;
+      color: #00d4ff;
+      font-family: "Cinzel", serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      flex: 1;
+      position: relative;
+    }
+
+    .event.character-event h3 {
+      color: #5dcea0;
+    }
+	.character-text {
+		color: #5dcea0;
+	}
+    .event h3::after {
+      content: '';
+      position: absolute;
+      right: -25px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      color: #ffce54;
+      transition: transform 0.3s ease;
+    }
+
+    .event.expanded h3::after {
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    .date-display {
+      text-align: right;
+      font-family: "Cinzel", serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .universal-year {
+      color: #ffce54;
+      display: block;
+    }
+
+    .kings-calendar {
+      color: #00d4ff;
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .character-age {
+      color: #c8b7c8;
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-style: italic;
+    }
+
+    .event-summary {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #c8b7c8;
+      font-style: italic;
+      opacity: 0.9;
+    }
+
+    .event-details {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 212, 255, 0.3);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #e8ddd4;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .event.character-event .event-details {
+      border-top-color: rgba(93, 206, 160, 0.3);
+    }
+
+    .event.expanded .event-details {
+      opacity: 1;
+      max-height: none;
+    }
+
+    .event.empty {
+      background: linear-gradient(135deg, rgba(60, 50, 60, 0.3), rgba(45, 35, 45, 0.4));
+      border: 2px dashed rgba(200, 183, 200, 0.3);
+      color: rgba(232, 221, 212, 0.6);
+      display: none;
+    }
+
+    .event.empty.show-empty {
+      display: block;
+    }
+
+    .event.empty h3 {
+      color: rgba(0, 212, 255, 0.5);
+    }
+
+    .event.empty h3::after {
+      display: none;
+    }
+
+    .event.left { 
+      left: 0; 
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+    
+    .event.right { 
+      left: 55%; 
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+
+    .event::before {
+      content: "";
+      position: absolute;
+      top: 2rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00d4ff, #1a1a2e);
+      border: 3px solid #0a0a0f;
+      box-shadow: 0 0 0 3px #00d4ff, 0 0 15px rgba(0, 212, 255, 0.5);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .event.empty::before {
+      background: rgba(200, 183, 200, 0.5);
+      box-shadow: 0 0 0 3px rgba(200, 183, 200, 0.3);
+    }
+
+    .event:hover::before {
+      transform: scale(1.3);
+    }
+
+    .event.left::before { right: -32px; }
+    .event.right::before { left: -32px; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .year-indicator {
+      position: sticky;
+      top: 20px;
+      text-align: center;
+      background: rgba(26, 26, 46, 0.9);
+      backdrop-filter: blur(10px);
+      color: #00d4ff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-family: "Cinzel", serif;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      border: 2px solid rgba(0, 212, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 30px;
+      }
+      
+      .event {
+        width: calc(100% - 80px);
+        left: 60px !important;
+        margin-bottom: 1.5rem;
+      }
+      
+      .event::before {
+        left: -32px !important;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+
+      .event-header {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .date-display {
+        text-align: left;
+      }
+
+      .controls-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #e8ddd4;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #00d4ff;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 196, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chronicle of Azeroth</h1>
+    
+    <div class="controls">
+      <div class="controls-row">
+        <button class="toggle-btn" onclick="toggleEmptyEvents()">
+          <span id="toggle-text">Show Empty Years</span>
+        </button>
+        
+        <button class="toggle-btn character-only" onclick="toggleCharacterOnly()">
+          <span id="character-toggle-text">Show Character Events Only</span>
+        </button>
+      </div>
+      
+      <div class="controls-row">
+        <label for="character-age" style="font-family: 'Cinzel', serif; color: #e8ddd4; margin-right: 0.5rem;">
+          Character's age at Year 40:
+        </label>
+        <input 
+          type="number" 
+          id="character-age" 
+          min="1" 
+          max="10000" 
+          value="35"
+          onchange="updateCharacterAges()"
+          style="
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e8ddd4;
+            border: 2px solid #00d4ff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            width: 80px;
+            text-align: center;
+          "
+        />
+        <span style="font-family: 'Cinzel', serif; color: #ffce54; margin-left: 0.5rem; font-size: 0.9rem;">
+          years old
+        </span>
+      </div>
+    </div>
+    
+    <div class="year-indicator" id="year-indicator">
+      Chronicle Begins - First War
+    </div>
+    
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="scroll-top" id="scroll-top" onclick="scrollToTop()">
+    ↑
+  </div>
+
+  <!-- Load the timeline data -->
+  <script src="timeline-data.js"></script>
+  <script>
+    const startYear = 0;
+    const endYear = 50;
+    let showEmpty = false;
+    let characterOnly = false;
+
+    // Convert Universal Year to King's Calendar (add 592)
+    function toKingsCalendar(universalYear) {
+      return universalYear + 592;
+    }
+
+    // Calculate character age based on input age at year 40
+    function getCharacterAge(universalYear) {
+      const ageAtYear40 = parseInt(document.getElementById('character-age').value) || 25;
+      return ageAtYear40 + (universalYear - 40);
+    }
+
+    function toggleEmptyEvents() {
+      showEmpty = !showEmpty;
+      document.getElementById('toggle-text').textContent = 
+        showEmpty ? 'Hide Empty Years' : 'Show Empty Years';
+      createTimeline();
+    }
+
+    function toggleCharacterOnly() {
+      characterOnly = !characterOnly;
+      document.getElementById('character-toggle-text').textContent = 
+        characterOnly ? 'Show All Events' : 'Show Character Events Only';
+      createTimeline();
+    }
+
+    function updateCharacterAges() {
+      createTimeline();
+    }
+
+    function createTimeline() {
+      const timeline = document.getElementById("timeline");
+      timeline.innerHTML = '';
+
+      let side = "left";
+      let eventIndex = 0;
+
+      // Combine events based on current filter
+      let eventsToShow = {};
+      
+      if (characterOnly) {
+        // Only show character events
+        eventsToShow = { ...characterEvents };
+      } else {
+        // Show world events, and combine with character events
+        eventsToShow = { ...worldEvents };
+        // Combine character events with world events for the same year
+        Object.keys(characterEvents).forEach(year => {
+          if (eventsToShow[year]) {
+            // Both world and character events exist - combine them
+            const worldEvent = eventsToShow[year];
+            const charEvent = characterEvents[year];
+            eventsToShow[year] = {
+              title: worldEvent.title || charEvent.title,
+              summary: "<span class='character-text'>" + charEvent.summary + "</span>" + (worldEvent.summary ? "<br><br>" + worldEvent.summary : ""),
+              details: (charEvent.details ? "<span class='character-text'>" + charEvent.details + "</span>" : "") + (worldEvent.details ? "<br><br>" + worldEvent.details : ""),
+              isCharacterEvent: true // Mark as having character content
+            };
+          } else {
+            // Only character event exists
+            eventsToShow[year] = { ...characterEvents[year], isCharacterEvent: true };
+          }
+        });
+      }
+
+      for (let year = startYear; year <= endYear; year++) {
+        if (!eventsToShow[year] && !showEmpty) {
+          continue;
+        }
+
+        const eventDiv = document.createElement("div");
+        eventDiv.className = "event " + side;
+        eventDiv.style.setProperty('--index', eventIndex);
+
+        const universalYear = year;
+        const kingsYear = toKingsCalendar(year);
+        const characterAge = getCharacterAge(year);
+
+        if (eventsToShow[year]) {
+          // Check if this is a character event
+          const isCharacterEvent = characterEvents.hasOwnProperty(year) || eventsToShow[year].isCharacterEvent;
+          if (isCharacterEvent) {
+            eventDiv.classList.add('character-event');
+          }
+
+          eventDiv.innerHTML = `
+            <div class="event-header">
+              <h3>${eventsToShow[year].title}</h3>
+              <div class="date-display">
+                <span class="universal-year">Year ${universalYear}</span>
+                <span class="kings-calendar">KC ${kingsYear}</span>
+                <span class="character-age">Age ${characterAge}</span>
+              </div>
+            </div>
+            <p class="event-summary">${eventsToShow[year].summary}</p>
+            <div class="event-details">${eventsToShow[year].details}</div>
+          `;
+          
+          eventDiv.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+          });
+        } else {
+          eventDiv.classList.add("empty");
+          if (showEmpty) {
+            eventDiv.classList.add("show-empty");
+          }
+          eventDiv.innerHTML = `
+            <div class="event-header">
+              <h3>Year ${universalYear}</h3>
+              <div class="date-display">
+                <span class="universal-year">Year ${universalYear}</span>
+                <span class="kings-calendar">KC ${kingsYear}</span>
+                <span class="character-age">Age ${characterAge}</span>
+              </div>
+            </div>
+            <p class="event-summary">The chronicles remain silent for this year...</p>
+          `;
+        }
+
+        timeline.appendChild(eventDiv);
+
+        // Alternate sides
+        side = side === "left" ? "right" : "left";
+        eventIndex++;
+      }
+
+      // Update year indicator as user scrolls
+      updateYearIndicator();
+    }
+
+    function updateYearIndicator() {
+      const events = document.querySelectorAll('.event:not(.empty)');
+      const indicator = document.getElementById('year-indicator');
+      
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.005;
+        
+        // Subtle parallax effect
+        document.body.style.backgroundPosition = `50% ${rate}px`;
+        
+        // Show/hide scroll to top button
+        const scrollTop = document.getElementById('scroll-top');
+        if (scrolled > 300) {
+          scrollTop.style.display = 'flex';
+        } else {
+          scrollTop.style.display = 'none';
+        }
+
+        // Update year indicator based on visible events
+        let currentYear = startYear;
+        events.forEach((event, index) => {
+          const rect = event.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+            const yearMatch = event.querySelector('.universal-year').textContent.match(/Year (\d+)/);
+            if (yearMatch) {
+              currentYear = parseInt(yearMatch[1]);
+            }
+          }
+        });
+        
+        const kingsYear = toKingsCalendar(currentYear);
+        const modeText = characterOnly ? ' (Character Events)' : '';
+        indicator.textContent = `Year ${currentYear} (KC ${kingsYear})${modeText}`;
+      });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Initialize timeline
+    createTimeline();
+
+    // Add smooth scrolling
+    document.addEventListener('DOMContentLoaded', function() {
+      const style = document.createElement('style');
+      style.textContent = `
+        html {
+          scroll-behavior: smooth;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
