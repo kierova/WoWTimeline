@@ -258,7 +258,9 @@ const worldEvents = {
     title: "World of Warcraft",
     summary: "",
     details: `
-		Gnomeregan is lost after Sicco Thermaplugg convinces Gelbin Mekkatorque to release lethal radiation in the city, irradiating not only the invading troggs but most of the gnomes as well. Mekkatorque and the gnomes are granted refuge in Ironforge by the dwarves, establishing Tinker Town.
+		Gnomeregan is lost after Sicco Thermaplugg convinces Gelbin Mekkatorque to release lethal radiation in the city, irradiating not only the invading troggs but most of the gnomes as well.
+  		<br><br>
+		Mekkatorque and the gnomes are granted refuge in Ironforge by the dwarves, establishing Tinker Town.
 		<br><br>
 		King Varian Wrynn is kidnapped. Bolvar Fordragon becomes Regent-Lord of Stormwind.
 		<br><br>
@@ -441,3 +443,4 @@ const characterEvents = {
     `
   },
 };
+
