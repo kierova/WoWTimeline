@@ -337,7 +337,7 @@ const worldEvents = {
   	26: {
     title: "The Burning Crusade",
 	image: "https://warcraft.wiki.gg/images/Sunwell_Classic_key_art.jpg?82fecf=&format=original",
-	imageFocus: "32% 50%",
+	imageFocus: "32% 35%",
     summary: "",
     details: `
 		The Dark Portal Opens under the command of Lord Kazzak and Highlord Kruul. Their forces are pushed back through the Dark Portal and defeated by the Argent Dawn and Alliance and Horde forces. The Alliance and Horde push through Outland, taking out Illidan's armies, the Illidari and the Fel Horde, as well as the Burning Legion forces.
@@ -382,7 +382,7 @@ const worldEvents = {
   	27: {
     title: "Wrath of the Lich King",
 	image: "https://warcraft.wiki.gg/images/Wotlk_Classic_key_art.jpg?af9bf2",
-	imageFocus: "33% 50%",
+	imageFocus: "33% 28%",
     summary: "",
     details: `
 		The Alliance and Horde forces land in Northrend, setting up fortifications in the Howling Fjord and Borean Tundra.
