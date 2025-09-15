@@ -2,7 +2,7 @@
 const worldEvents = {
   0: {
     title: "The First War",
-	image: "/img/firstwar1.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle2_Dark_Portal.jpg?503463",
     summary: "",
     details: `
 		The Horde enter the Dark Portal and small skirmishes break out with the humans. Rumors spread of monsters in the swamp; most are dismissed as tales.
@@ -18,7 +18,7 @@ const worldEvents = {
   },
   1: {
     title: "The First War",
-	image: "/img/firstwar2.png",
+	image: "https://warcraft.wiki.gg/images/Warcraft_I_Remastered_Key_Art.jpeg?dd2b54",
     summary: "",
     details: `
 		To combat the Horde, the Northshire Clerics begin entering the battlefield, the humans' first view of a priest on the frontlines.
@@ -32,7 +32,7 @@ const worldEvents = {
   },
   3: {
     title: "The First War",
-	image: "/img/firstwar3.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle_Stormwind_refugees.jpg?25dca2",
 	imageFocus: "50% 35%",
     summary: "",
     details: `
@@ -55,7 +55,7 @@ const worldEvents = {
   },
   4: {
     title: "The Second War",
-	image: "/img/secondwar1.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle2_Turalyon_and_the_Council_of_Seven_Nations.jpg?777d75",
 	imageFocus: "50% 15%",
     summary: "",
     details: `
@@ -70,7 +70,7 @@ const worldEvents = {
   },
   5: {
     title: "The Second War",
-	image: "/img/secondwar2.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle_Second_War.jpg?52cf68",
 	imageFocus: "60% 50%",
     summary: "",
     details: `
@@ -91,7 +91,7 @@ const worldEvents = {
   },
   6: {
     title: "The Second War",
-	image: "/img/secondwar3.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle2_Death_knights_versus_paladins.jpg?d8e26d",
     summary: "",
     details: `
 		The Battle of Hillsbrad Foothills ensues, leaving much of the landscape in ruin.
@@ -115,7 +115,7 @@ const worldEvents = {
   },
     7: {
     title: "Aftermath of the Second War",
-	image: "/img/secondwar4.png",
+	image: "https://warcraft.wiki.gg/images/Blackmoore_and_Thrall.jpg?511aff",
 	imageFocus: "50% 10%",
     summary: "",
     details: `
@@ -130,7 +130,7 @@ const worldEvents = {
   },
     8: {
     title: "Aftermath of the Second War",
-	image: "/img/secondwar5.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle2_Invasion_of_Draenor.jpg?1b6175",
 	imageFocus: "85% 50%",
     summary: "",
     details: `
@@ -151,7 +151,7 @@ const worldEvents = {
   },
     10: {
     title: "Aftermath of the Second War",
-	image: "/img/secondwar6.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle3_Alexstrasza.jpg?371f1c",
 		imageFocus: "50% 25%",
     summary: "",
     details: `
@@ -166,7 +166,7 @@ const worldEvents = {
   },
     15: {
     title: "Aftermath of the Second War",
-	image: "/img/secondwar7.png",
+	image: "https://warcraft.wiki.gg/images/Kel%27Thuzad_and_the_Frozen_Throne.jpg?d8c57c",
     summary: "",
     details: `
 		Kel'Thuzad, a skilled necromancer, heeds the voice of the Lich King and travels to Icecrown Citadel. He then creates the Cult of the Damned in service to the Lich King.
@@ -184,7 +184,7 @@ const worldEvents = {
   },
     18: {
     title: "Aftermath of the Second War",
-	image: "/img/secondwar8.png",
+	image: "https://warcraft.wiki.gg/images/Medivh_Chronicle.jpg?e92f4b=&format=original",
     summary: "",
     details: `
 		Aegwynn uses her power to summon Medivh's spirit on Azeroth. Free of the taint of Sargeras, the Last Guardian decides that he will be the catalyst to unity and decides to warn the other races of the upcoming return of the Burning Legion.
@@ -194,7 +194,7 @@ const worldEvents = {
   },
     20: {
     title: "The Third War",
-	image: "/img/thirdwar1.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle3_Arthas_in_Stratholme.jpg?c4e82d",
 	imageFocus: "50% 40%",
     summary: "",
     details: `
@@ -229,7 +229,7 @@ const worldEvents = {
   },
     21: {
     title: "The Third War",
-	image: "/img/thirdwar2.png",
+	image: "https://warcraft.wiki.gg/images/Archimonde_assaults_Nordrassil.jpg?7648d4=&format=original",
     summary: "",
     details: `
 		The night elves, along with the orcs lead by Thrall and the humans lead by Jaina, mount a defense at the top of Mount Hyjal against Archimonde. Using an army of wisps, the defenders managed to slay Archimonde.
@@ -237,7 +237,7 @@ const worldEvents = {
   },
     22: {
     title: "Rise of the Lich King",
-	image: "/img/thirdwar3.png",
+	image: "https://warcraft.wiki.gg/images/Illidan_v_Arthas.jpg?5c27cf",
     summary: "",
     details: `
 		Marvon Rivetseeker excavates the Broken Pillar in Tanaris.
@@ -255,7 +255,7 @@ const worldEvents = {
   },
 	23: {
     title: "Rise of the Lich King",
-	image: "/img/thirdwar4.png",
+	image: "https://warcraft.wiki.gg/images/Exploring_Azeroth_-_Teldrassil.jpg?24e611=&format=original",
     summary: "",
     details: `
 		The red dragon Korialstrasz takes the remnant of the Sunwell's energies, creating an avatar in the form of Anveena Teague. Dar'Khan Drathir attempts to use her power to make himself a god, but is destroyed in the process. Anveena then remains at the Sunwell, under the protection of Lor'themar Theron.
@@ -271,7 +271,7 @@ const worldEvents = {
   },
   	25: {
     title: "World of Warcraft",
-	image: "/img/worldofwarcraft.png",
+	image: "https://warcraft.wiki.gg/images/WoW_Classic_Onyxia.jpg?b75bc6=&format=original",
 	imageFocus: "52% 50%",
     summary: "",
     details: `
@@ -336,7 +336,7 @@ const worldEvents = {
   },
   	26: {
     title: "The Burning Crusade",
-	image: "/img/burningcrusade.png",
+	image: "https://warcraft.wiki.gg/images/Sunwell_Classic_key_art.jpg?82fecf=&format=original",
 	imageFocus: "32% 50%",
     summary: "",
     details: `
@@ -381,7 +381,7 @@ const worldEvents = {
   },
   	27: {
     title: "Wrath of the Lich King",
-	image: "/img/lichking.png",
+	image: "https://warcraft.wiki.gg/images/Wotlk_Classic_key_art.jpg?af9bf2",
 	imageFocus: "33% 50%",
     summary: "",
     details: `
@@ -422,7 +422,7 @@ const worldEvents = {
   },
   	28: {
     title: "The Cataclysm",
-	image: "/img/cataclysm1.png",
+	image: "https://warcraft.wiki.gg/images/Cataclysm_Classic_key_art.jpg?8dc279",
 	imageFocus: "44% 50%",
     summary: "",
     details: `
@@ -479,7 +479,7 @@ const worldEvents = {
   },
   	29: {
     title: "The Hour of Twilight",
-	image: "/img/cataclysm2.png",
+	image: "https://warcraft.wiki.gg/images/Chronicle3_Hour_of_Twilight.jpg?8caa44=&format=original",
 	imageFocus: "50% 32%",
     summary: "",
     details: `
@@ -492,7 +492,7 @@ const worldEvents = {
   },
   	30: {
     title: "Mists of Pandaria",
-	image: "/img/pandaria.png",
+	image: "https://warcraft.wiki.gg/images/Chen_Stormstout_MoP_Glenn_Rane.jpg?be5fea=&format=original",
 	imageFocus: "66% 50%",
     summary: "",
     details: `
@@ -545,7 +545,7 @@ const worldEvents = {
   },
   	31: {
     title: "Warlords of Draenor",
-	image: "/img/warlordsofdraenor.jpg",
+	image: "https://warcraft.wiki.gg/images/Chronicle2_Blood-curse.jpg?9bb192=&format=original",
 	imageFocus: "52% 47%",
     summary: "",
     details: `
@@ -578,7 +578,7 @@ const worldEvents = {
   },
   	32: {
     title: "Legion",
-	image: "/img/legion.png",
+	image: "https://warcraft.wiki.gg/images/Illidan_legion.jpg?b86645=&format=original",
 	imageFocus: "53.5% 50%",
     summary: "",
     details: `
@@ -645,7 +645,7 @@ const worldEvents = {
   },
   	33: {
     title: "Battle for Azeroth",
-	image: "/img/battleforazeroth.png",
+	image: "https://warcraft.wiki.gg/images/Sylvanas_vs_Anduin_Capital_City_BfA.jpg?952c3b=&format=original",
 	imageFocus: "50% 30%",
     summary: "",
     details: `
@@ -666,7 +666,7 @@ const worldEvents = {
   },
   	35: {
     title: "Shadowlands",
-	image: "/img/shadowlands.png",
+	image: "https://warcraft.wiki.gg/images/Shadowlands_Login_No_text.png?90f58a=&format=original",
 	imageFocus: "50% 50%",
     summary: "",
     details: `
@@ -721,7 +721,7 @@ const worldEvents = {
   },
   	40: {
     title: "Dragonflight",
-	image: "/img/dragonflight.jpg",
+	image: "https://warcraft.wiki.gg/images/Dragonflight_key_art.jpg?da1aec=&format=original",
 	imageFocus: "67% 50%",
     summary: "",
     details: `
@@ -784,7 +784,7 @@ const worldEvents = {
   },
   	42: {
     title: "The War Within",
-	image: "/img/thewarwithin.png",
+	image: "https://warcraft.wiki.gg/images/The_War_Within_Key_Art.jpg?cf5d1e=&format=original",
 	imageFocus: "58% 45%",
     summary: "",
     details: `
