@@ -92,6 +92,8 @@
       font-weight: 600;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-decoration: none;
+      display: inline-block;
     }
 
     .toggle-btn:hover {
@@ -106,6 +108,14 @@
 
     .toggle-btn.character-only:hover {
       box-shadow: 0 6px 20px rgba(122, 155, 142, 0.3);
+    }
+
+    .toggle-btn.view-link {
+      border-color: #8fa596;
+    }
+
+    .toggle-btn.view-link:hover {
+      box-shadow: 0 6px 20px rgba(143, 165, 150, 0.3);
     }
 
     .timeline {
@@ -131,7 +141,7 @@
       position: relative;
       margin-bottom: 2rem;
       display: flex;
-      align-items: flex-start; /* Events determine their own height */
+      align-items: flex-start;
       gap: 2rem;
       width: 100%;
       justify-content: center;
@@ -162,7 +172,6 @@
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
-      /* Let events size naturally based on content */
     }
 
     .event::after {
@@ -324,7 +333,6 @@
       transform: scale(1.3);
     }
 
-    /* Timeline dot positioning */
     .timeline-item.left .event::before { 
       right: -32px; 
     }
@@ -343,7 +351,7 @@
       opacity: 0;
       transform: translateY(50px);
       animation: fadeInUp 0.8s ease forwards;
-      transition: all 0.3s ease, height 0.3s ease; /* Added height transition */
+      transition: all 0.3s ease, height 0.3s ease;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -354,7 +362,6 @@
       animation-delay: calc(var(--index) * 0.1s + 0.2s);
       flex-shrink: 0;
       cursor: pointer;
-      /* Height will be set dynamically by JavaScript to match events */
     }
 
     .event-image.character-image {
@@ -505,6 +512,14 @@
         <button class="toggle-btn character-only" onclick="toggleCharacterOnly()">
           <span id="character-toggle-text">Show Character Events Only</span>
         </button>
+
+        <a href="compact-timeline.html" class="toggle-btn view-link">
+          Compact View
+        </a>
+
+        <a href="character-editor.html" class="toggle-btn view-link">
+          Edit Character Events
+        </a>
       </div>
       
       <div class="controls-row">
@@ -546,26 +561,47 @@
     ↑
   </div>
 
-  <!-- Load the timeline data -->
   <script src="timeline-data.js"></script>
   <script>
+    const STORAGE_KEY = 'wowTimelineCharacterEvents';
+    const AGE_STORAGE_KEY = 'wowTimelineCharacterAge';
     const startYear = 0;
     const endYear = 50;
     let showEmpty = false;
     let characterOnly = false;
 
-    // Convert Universal Year to King's Calendar (add 592)
+    // Load character events from localStorage
+    function loadCharacterEvents() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : {};
+    }
+
+    // Load character age from localStorage
+    function loadCharacterAge() {
+      const stored = localStorage.getItem(AGE_STORAGE_KEY);
+      return stored ? parseInt(stored) : 35;
+    }
+
+    // Save character age to localStorage
+    function saveCharacterAge(age) {
+      localStorage.setItem(AGE_STORAGE_KEY, age.toString());
+    }
+
+    // Initialize age input with stored value
+    document.getElementById('character-age').value = loadCharacterAge();
+
+    // Get character events (from localStorage)
+    const characterEvents = loadCharacterEvents();
+
     function toKingsCalendar(universalYear) {
       return universalYear + 592;
     }
 
-    // Calculate character age based on input age at year 40
     function getCharacterAge(universalYear) {
-      const ageAtYear40 = parseInt(document.getElementById('character-age').value) || 25;
+      const ageAtYear40 = parseInt(document.getElementById('character-age').value) || 35;
       return ageAtYear40 + (universalYear - 40);
     }
 
-    // Function to sync image heights with their paired events
     function syncImageHeights() {
       const timelineItems = document.querySelectorAll('.timeline-item');
       
@@ -574,17 +610,10 @@
         const image = item.querySelector('.event-image');
         
         if (event && image) {
-          // Always reset image height first to get accurate event height
           image.style.height = 'auto';
           image.style.minHeight = 'auto';
-          
-          // Force a reflow to ensure we get the natural event height
           event.offsetHeight;
-          
-          // Get the computed height of the event
           const eventHeight = event.offsetHeight;
-          
-          // Set the image height to match the event height
           image.style.height = eventHeight + 'px';
           image.style.minHeight = eventHeight + 'px';
         }
@@ -606,6 +635,8 @@
     }
 
     function updateCharacterAges() {
+      const age = parseInt(document.getElementById('character-age').value) || 35;
+      saveCharacterAge(age);
       createTimeline();
     }
 
@@ -616,31 +647,29 @@
       let side = "left";
       let eventIndex = 0;
 
-      // Combine events based on current filter
+      // Reload character events from localStorage each time
+      const currentCharacterEvents = loadCharacterEvents();
+
       let eventsToShow = {};
       
       if (characterOnly) {
-        // Only show character events
-        eventsToShow = { ...characterEvents };
+        eventsToShow = { ...currentCharacterEvents };
       } else {
-        // Show world events, and combine with character events
         eventsToShow = { ...worldEvents };
-        // Combine character events with world events for the same year
-        Object.keys(characterEvents).forEach(year => {
+        Object.keys(currentCharacterEvents).forEach(year => {
           if (eventsToShow[year]) {
-            // Both world and character events exist - combine them
             const worldEvent = eventsToShow[year];
-            const charEvent = characterEvents[year];
+            const charEvent = currentCharacterEvents[year];
             eventsToShow[year] = {
               title: worldEvent.title || charEvent.title,
               summary: "<span class='character-text'>" + charEvent.summary + "</span>" + (worldEvent.summary ? "<br><br>" + worldEvent.summary : ""),
               details: (charEvent.details ? "<span class='character-text'>" + charEvent.details + "</span>" : "") + (worldEvent.details ? "<br><br>" + worldEvent.details : ""),
               image: worldEvent.image || charEvent.image,
-              isCharacterEvent: true // Mark as having character content
+              imageFocus: worldEvent.imageFocus || charEvent.imageFocus,
+              isCharacterEvent: true
             };
           } else {
-            // Only character event exists
-            eventsToShow[year] = { ...characterEvents[year], isCharacterEvent: true };
+            eventsToShow[year] = { ...currentCharacterEvents[year], isCharacterEvent: true };
           }
         });
       }
@@ -662,30 +691,28 @@
         const characterAge = getCharacterAge(year);
 
         if (eventsToShow[year]) {
-          // Check if this is a character event
-          const isCharacterEvent = characterEvents.hasOwnProperty(year) || eventsToShow[year].isCharacterEvent;
+          const isCharacterEvent = currentCharacterEvents.hasOwnProperty(year) || eventsToShow[year].isCharacterEvent;
           if (isCharacterEvent) {
             eventDiv.classList.add('character-event');
           }
 
           eventDiv.innerHTML = `
             <div class="event-header">
-              <h3>${eventsToShow[year].title}</h3>
+              <h3>${eventsToShow[year].title || ''}</h3>
               <div class="date-display">
                 <span class="universal-year">Year ${universalYear}</span>
                 <span class="kings-calendar">KC ${kingsYear}</span>
                 <span class="character-age">Age ${characterAge}</span>
               </div>
             </div>
-            <p class="event-summary">${eventsToShow[year].summary}</p>
-            <div class="event-details">${eventsToShow[year].details}</div>
+            <p class="event-summary">${eventsToShow[year].summary || ''}</p>
+            <div class="event-details">${eventsToShow[year].details || ''}</div>
           `;
           
           eventDiv.addEventListener('click', function() {
             this.classList.toggle('expanded');
             timelineItem.classList.toggle('expanded');
             
-            // Sync heights after expansion/collapse animation
             setTimeout(() => {
               syncImageHeights();
             }, 0);
@@ -693,7 +720,6 @@
 
           timelineItem.appendChild(eventDiv);
 
-          // ALWAYS create image container - either with image or invisible
           const imageDiv = document.createElement("div");
           imageDiv.className = "event-image";
           imageDiv.style.setProperty('--index', eventIndex);
@@ -702,36 +728,31 @@
             imageDiv.classList.add('character-image');
           }
 
-			if (eventsToShow[year].image) {
-			  // Has image - make it clickable and load the image
-			  imageDiv.addEventListener('click', function() {
-				eventDiv.classList.toggle('expanded');
-				timelineItem.classList.toggle('expanded');
-				
-				// Sync heights after expansion/collapse animation
-				setTimeout(() => {
-				  syncImageHeights();
-				}, 0);
-			  });
-			  
-			  const img = document.createElement('img');
-			  img.src = eventsToShow[year].image;
-			  img.alt = eventsToShow[year].title;
-			  
-			  // Set custom focal point if specified
-			  if (eventsToShow[year].imageFocus) {
-				img.style.objectPosition = eventsToShow[year].imageFocus;
-			  }
-			  
-			  imageDiv.appendChild(img);
-			} else {
-            // No image - make it invisible but maintain space
+          if (eventsToShow[year].image) {
+            imageDiv.addEventListener('click', function() {
+              eventDiv.classList.toggle('expanded');
+              timelineItem.classList.toggle('expanded');
+              
+              setTimeout(() => {
+                syncImageHeights();
+              }, 0);
+            });
+            
+            const img = document.createElement('img');
+            img.src = eventsToShow[year].image;
+            img.alt = eventsToShow[year].title || '';
+            
+            if (eventsToShow[year].imageFocus) {
+              img.style.objectPosition = eventsToShow[year].imageFocus;
+            }
+            
+            imageDiv.appendChild(img);
+          } else {
             imageDiv.classList.add('invisible');
           }
           
           timelineItem.appendChild(imageDiv);
         } else {
-          // Empty event
           eventDiv.classList.add("empty");
           if (showEmpty) {
             eventDiv.classList.add("show-empty");
@@ -750,7 +771,6 @@
 
           timelineItem.appendChild(eventDiv);
 
-          // ALWAYS create image container for empty events too
           const imageDiv = document.createElement("div");
           imageDiv.className = "event-image invisible";
           imageDiv.style.setProperty('--index', eventIndex);
@@ -759,13 +779,10 @@
 
         timeline.appendChild(timelineItem);
 
-        // Alternate sides for EVERY event, regardless of image presence
         side = side === "left" ? "right" : "left";
         eventIndex++;
       }
 
-      // Sync image heights after timeline is created and rendered
-      // Use multiple timeouts to ensure proper rendering
       setTimeout(() => {
         syncImageHeights();
       }, 100);
@@ -774,7 +791,6 @@
         syncImageHeights();
       }, 500);
 
-      // Update year indicator as user scrolls
       updateYearIndicator();
     }
 
@@ -786,10 +802,8 @@
         const scrolled = window.pageYOffset;
         const rate = scrolled * -0.005;
         
-        // Subtle parallax effect
         document.body.style.backgroundPosition = `50% ${rate}px`;
         
-        // Show/hide scroll to top button
         const scrollTop = document.getElementById('scroll-top');
         if (scrolled > 300) {
           scrollTop.style.display = 'flex';
@@ -797,7 +811,6 @@
           scrollTop.style.display = 'none';
         }
 
-        // Update year indicator based on visible events
         let currentYear = startYear;
         events.forEach((event, index) => {
           const rect = event.getBoundingClientRect();
@@ -822,17 +835,14 @@
       });
     }
 
-    // Initialize timeline
     createTimeline();
 
-    // Sync heights on window resize
     window.addEventListener('resize', () => {
       setTimeout(() => {
         syncImageHeights();
       }, 100);
     });
 
-    // Add smooth scrolling
     document.addEventListener('DOMContentLoaded', function() {
       const style = document.createElement('style');
       style.textContent = `

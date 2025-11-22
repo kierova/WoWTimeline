@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Event Editor - WoW Timeline</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f1416 0%, #1a2224 50%, #1e2a2d 100%);
+      color: #d4c4a8;
+      line-height: 1.6;
+      padding: 2rem;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(122, 155, 142, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(184, 160, 130, 0.08) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="%23d4c4a8" opacity="0.03"/><circle cx="30" cy="25" r="0.3" fill="%237a9b8e" opacity="0.02"/><circle cx="70" cy="40" r="0.4" fill="%23b8a082" opacity="0.03"/><circle cx="50" cy="70" r="0.2" fill="%23d4c4a8" opacity="0.02"/><circle cx="90" cy="85" r="0.3" fill="%237a9b8e" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(194, 157, 90, 0.3);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f2e4c4;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: #a89b82;
+      font-size: 0.9375rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: #c29d5a;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #f2e4c4;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #c29d5a;
+      background: linear-gradient(135deg, #1a2224, #1e2a2d);
+      color: #d4c4a8;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #1e2a2d, #253034);
+      border-color: #f2e4c4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(194, 157, 90, 0.3);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #c29d5a, #b89052);
+      border-color: #f2e4c4;
+      color: #1a2224;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #d4af6a, #c29d5a);
+      border-color: #f2e4c4;
+      box-shadow: 0 4px 12px rgba(194, 157, 90, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #5a2d2d, #4a2020);
+      border-color: #7f4a4a;
+      color: #d4c4a8;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #6f3a3a, #5a2d2d);
+      border-color: #8f5a5a;
+      box-shadow: 0 4px 12px rgba(127, 74, 74, 0.3);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #2d5a3a, #254a30);
+      border-color: #4a7f5a;
+      color: #d4c4a8;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #3a6f4a, #2d5a3a);
+      border-color: #5a8f6a;
+      box-shadow: 0 4px 12px rgba(74, 127, 90, 0.3);
+    }
+
+    .events-grid {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .event-card {
+      background: linear-gradient(135deg, rgba(26, 34, 36, 0.9), rgba(30, 42, 45, 0.95));
+      border: 1px solid rgba(194, 157, 90, 0.3);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .event-card:hover {
+      border-color: rgba(194, 157, 90, 0.6);
+      box-shadow: 0 6px 20px rgba(194, 157, 90, 0.3);
+    }
+
+    .event-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .event-year {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #c29d5a;
+      min-width: 80px;
+    }
+
+    .event-content {
+      flex: 1;
+    }
+
+    .event-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #7a9b8e;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-summary {
+      color: #c2b294;
+      font-size: 0.9375rem;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+
+    .event-details {
+      color: #a89b82;
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .form-section {
+      background: linear-gradient(135deg, rgba(26, 34, 36, 0.9), rgba(30, 42, 45, 0.95));
+      border: 1px solid rgba(194, 157, 90, 0.3);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .form-section h2 {
+      font-size: 1.5rem;
+      color: #f2e4c4;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #c2b294;
+      font-weight: 500;
+      font-size: 0.9375rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(15, 20, 22, 0.8);
+      border: 1px solid #c29d5a;
+      border-radius: 6px;
+      color: #d4c4a8;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #f2e4c4;
+      box-shadow: 0 0 0 2px rgba(194, 157, 90, 0.2);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+      line-height: 1.6;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 0.25rem;
+      color: #a89b82;
+      font-size: 0.8125rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #a89b82;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(26, 34, 36, 0.9), rgba(30, 42, 45, 0.95));
+      border: 1px solid rgba(194, 157, 90, 0.3);
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #c29d5a;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #a89b82;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #0f1823;
+      border: 1px solid #2a3f5f;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      color: #f0f0f0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #6a8aaa;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #1a2332;
+      color: #e0e0e0;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .event-card-header {
+        flex-direction: column;
+      }
+
+      .event-actions {
+        flex-direction: column;
+      }
+
+      .btn-small {
+        width: 100%;
+      }
+    }
+
+    .notification {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: #2d5a3a;
+      border: 1px solid #4a7f5a;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      z-index: 2000;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .notification.error {
+      background: #5a2d2d;
+      border-color: #7f4a4a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Character Event Editor</h1>
+      <p class="subtitle">Add and manage your custom character events for the World of Warcraft timeline</p>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">← Classic Timeline View</a>
+        <a href="compact-timeline.html" class="nav-link">← Compact Timeline View</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="eventCount">0</div>
+        <div class="stat-label">Events</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="yearSpan">0</div>
+        <div class="stat-label">Years Covered</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="openAddModal()">+ Add New Event</button>
+      <button class="btn" onclick="exportData()">Export Data</button>
+      <button class="btn" onclick="importData()">Import Data</button>
+      <button class="btn btn-danger" onclick="confirmClearAll()">Clear All Events</button>
+    </div>
+
+    <div id="eventsList" class="events-grid">
+      <!-- Events will be populated here -->
+    </div>
+
+    <div class="empty-state hidden" id="emptyState">
+      <div class="empty-state-icon">📝</div>
+      <h2>No Character Events Yet</h2>
+      <p>Click "Add New Event" to create your first character event</p>
+    </div>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="modal" id="eventModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Event</h2>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <form id="eventForm" onsubmit="saveEvent(event)">
+        <div class="form-group">
+          <label for="eventYear">Year *</label>
+          <input type="number" id="eventYear" min="0" max="50" required>
+          <small>Enter a year between 0 and 50</small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventTitle">Title (Optional)</label>
+          <input type="text" id="eventTitle" placeholder="Leave blank to use the world event title">
+          <small>If blank, will inherit the title from world events for this year</small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventSummary">Summary *</label>
+          <textarea id="eventSummary" required placeholder="Brief description of what happened"></textarea>
+          <small>A short description that appears in the timeline</small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDetails">Details (Optional)</label>
+          <textarea id="eventDetails" placeholder="Additional details about the event"></textarea>
+          <small>Extended information shown when the event is expanded. Supports HTML like &lt;br&gt;&lt;br&gt; for line breaks</small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventImage">Image URL (Optional)</label>
+          <input type="url" id="eventImage" placeholder="https://example.com/image.jpg">
+          <small>Direct link to an image for this event</small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventImageFocus">Image Focus Position (Optional)</label>
+          <input type="text" id="eventImageFocus" placeholder="50% 50%">
+          <small>CSS object-position value (e.g., "50% 30%" or "center top")</small>
+        </div>
+
+        <input type="hidden" id="editingYear" value="">
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Event</button>
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Hidden file input for import -->
+  <input type="file" id="importFile" accept=".json" style="display: none" onchange="handleImport(event)">
+
+  <script>
+    const STORAGE_KEY = 'wowTimelineCharacterEvents';
+
+    // Load events from localStorage
+    function loadEvents() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : {};
+    }
+
+    // Save events to localStorage
+    function saveEvents(events) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+      renderEvents();
+      updateStats();
+    }
+
+    // Render all events
+    function renderEvents() {
+      const events = loadEvents();
+      const container = document.getElementById('eventsList');
+      const emptyState = document.getElementById('emptyState');
+      
+      const years = Object.keys(events).sort((a, b) => parseInt(a) - parseInt(b));
+      
+      if (years.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = '';
+
+      years.forEach(year => {
+        const event = events[year];
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        
+        card.innerHTML = `
+          <div class="event-card-header">
+            <div class="event-year">Year ${year}</div>
+            <div class="event-content">
+              ${event.title ? `<div class="event-title">${event.title}</div>` : ''}
+              <div class="event-summary">${event.summary}</div>
+              ${event.details ? `<div class="event-details">Has additional details</div>` : ''}
+              ${event.image ? `<div class="event-details">Has image</div>` : ''}
+            </div>
+            <div class="event-actions">
+              <button class="btn btn-small" onclick="editEvent(${year})">Edit</button>
+              <button class="btn btn-small btn-danger" onclick="deleteEvent(${year})">Delete</button>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+
+    // Update statistics
+    function updateStats() {
+      const events = loadEvents();
+      const years = Object.keys(events).map(y => parseInt(y));
+      
+      document.getElementById('eventCount').textContent = years.length;
+      
+      if (years.length > 0) {
+        const minYear = Math.min(...years);
+        const maxYear = Math.max(...years);
+        document.getElementById('yearSpan').textContent = maxYear - minYear + 1;
+      } else {
+        document.getElementById('yearSpan').textContent = 0;
+      }
+    }
+
+    // Open modal for adding
+    function openAddModal() {
+      document.getElementById('modalTitle').textContent = 'Add New Event';
+      document.getElementById('eventForm').reset();
+      document.getElementById('editingYear').value = '';
+      document.getElementById('eventModal').classList.add('active');
+    }
+
+    // Open modal for editing
+    function editEvent(year) {
+      const events = loadEvents();
+      const event = events[year];
+      
+      document.getElementById('modalTitle').textContent = 'Edit Event';
+      document.getElementById('eventYear').value = year;
+      document.getElementById('eventTitle').value = event.title || '';
+      document.getElementById('eventSummary').value = event.summary || '';
+      document.getElementById('eventDetails').value = event.details || '';
+      document.getElementById('eventImage').value = event.image || '';
+      document.getElementById('eventImageFocus').value = event.imageFocus || '';
+      document.getElementById('editingYear').value = year;
+      
+      document.getElementById('eventModal').classList.add('active');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('eventModal').classList.remove('active');
+    }
+
+    // Save event (add or edit)
+    function saveEvent(e) {
+      e.preventDefault();
+      
+      const events = loadEvents();
+      const year = document.getElementById('eventYear').value;
+      const editingYear = document.getElementById('editingYear').value;
+      
+      // If editing and year changed, delete old entry
+      if (editingYear && editingYear !== year) {
+        delete events[editingYear];
+      }
+      
+      events[year] = {
+        title: document.getElementById('eventTitle').value.trim() || undefined,
+        summary: document.getElementById('eventSummary').value.trim(),
+        details: document.getElementById('eventDetails').value.trim() || undefined,
+        image: document.getElementById('eventImage').value.trim() || undefined,
+        imageFocus: document.getElementById('eventImageFocus').value.trim() || undefined
+      };
+      
+      // Remove undefined properties
+      Object.keys(events[year]).forEach(key => {
+        if (events[year][key] === undefined) {
+          delete events[year][key];
+        }
+      });
+      
+      saveEvents(events);
+      closeModal();
+      showNotification('Event saved successfully!');
+    }
+
+    // Delete event
+    function deleteEvent(year) {
+      if (confirm(`Are you sure you want to delete the event for Year ${year}?`)) {
+        const events = loadEvents();
+        delete events[year];
+        saveEvents(events);
+        showNotification('Event deleted successfully!');
+      }
+    }
+
+    // Export data
+    function exportData() {
+      const events = loadEvents();
+      const dataStr = JSON.stringify(events, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `wow-character-events-${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      showNotification('Events exported successfully!');
+    }
+
+    // Import data
+    function importData() {
+      document.getElementById('importFile').click();
+    }
+
+    function handleImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const imported = JSON.parse(event.target.result);
+          
+          if (confirm('This will merge with your existing events. Events with the same year will be overwritten. Continue?')) {
+            const events = loadEvents();
+            Object.assign(events, imported);
+            saveEvents(events);
+            showNotification('Events imported successfully!');
+          }
+        } catch (error) {
+          showNotification('Error importing file. Please check the file format.', true);
+        }
+      };
+      reader.readAsText(file);
+      
+      // Reset input
+      e.target.value = '';
+    }
+
+    // Clear all events
+    function confirmClearAll() {
+      if (confirm('Are you sure you want to delete ALL character events? This cannot be undone!')) {
+        if (confirm('Really delete everything? Consider exporting first!')) {
+          localStorage.removeItem(STORAGE_KEY);
+          renderEvents();
+          updateStats();
+          showNotification('All events cleared!');
+        }
+      }
+    }
+
+    // Show notification
+    function showNotification(message, isError = false) {
+      const notification = document.createElement('div');
+      notification.className = 'notification' + (isError ? ' error' : '');
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Close modal on escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize
+    renderEvents();
+    updateStats();
+  </script>
+</body>
+</html>

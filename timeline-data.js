@@ -808,7 +808,3 @@ const worldEvents = {
     `
   },
 };
-
-// Character-Specific Events
-const characterEvents = {
-};
