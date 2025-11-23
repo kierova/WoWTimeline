@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WoW Timeline - Compact View</title>
+  <title>WoW Timeline - Character Timeline</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
     
     * {
       box-sizing: border-box;
@@ -14,12 +14,13 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: "Crimson Text", serif;
       background: linear-gradient(135deg, #0f1416 0%, #1a2224 50%, #1e2a2d 100%);
       color: #d4c4a8;
       line-height: 1.6;
       position: relative;
       min-height: 100vh;
+      font-size: 105%;
     }
 
     body::before {
@@ -54,6 +55,7 @@
     }
 
     h1 {
+      font-family: "Cinzel", serif;
       font-size: 1.75rem;
       font-weight: 700;
       color: #f2e4c4;
@@ -83,22 +85,33 @@
       display: flex;
       gap: 0.75rem;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: stretch;
+    }
+
+    .controls-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: stretch;
     }
 
     .btn {
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1rem;
       border: 1px solid #c29d5a;
       background: linear-gradient(135deg, #1a2224, #1e2a2d);
       color: #d4c4a8;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       font-weight: 500;
+      font-family: "Times New Roman", serif;
       transition: all 0.2s;
       white-space: nowrap;
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
     }
 
     .btn:hover {
@@ -118,15 +131,17 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0 1rem;
       background: linear-gradient(135deg, #1a2224, #1e2a2d);
       border: 1px solid #c29d5a;
       border-radius: 6px;
+      height: 42px;
     }
 
     .age-control label {
       font-size: 0.875rem;
       color: #c2b294;
+      white-space: nowrap;
     }
 
     .age-control input {
@@ -138,6 +153,7 @@
       color: #d4c4a8;
       text-align: center;
       font-size: 0.875rem;
+      height: 30px;
     }
 
     .timeline-container {
@@ -160,6 +176,7 @@
     }
 
     .year-number {
+      font-family: "Cinzel", serif;
       font-size: 1.5rem;
       font-weight: 700;
       color: #c29d5a;
@@ -167,6 +184,7 @@
     }
 
     .year-subtitle {
+      font-family: "Cinzel", serif;
       font-size: 0.875rem;
       color: #a89b82;
     }
@@ -240,7 +258,8 @@
     }
 
     .event-title {
-      font-size: 1.125rem;
+      font-family: "Cinzel", serif;
+      font-size: 1.25rem;
       font-weight: 600;
       color: #c29d5a;
       flex: 1;
@@ -248,6 +267,391 @@
 
     .event-card.character-event .event-title {
       color: #7a9b8e;
+    }
+
+    /* ===== LAVENDER ===== */
+    .event-card[data-color="lavender"] {
+      border-color: rgba(139, 122, 155, 0.3);
+    }
+
+    .event-card[data-color="lavender"]::before {
+      background: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"] .event-title {
+      color: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"]:hover {
+      border-color: rgba(139, 122, 155, 0.6);
+      box-shadow: 0 6px 20px rgba(139, 122, 155, 0.3);
+    }
+
+    .event-card[data-color="lavender"].expanded {
+      border-color: #8b7a9b;
+    }
+
+    .year-group:has(.event-card[data-color="lavender"]) .year-number {
+      color: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"] .event-summary .character-text,
+    .event-card[data-color="lavender"] .event-details .character-text {
+      color: #b5a8c2 !important;
+    }
+
+    .event-card[data-color="lavender"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="lavender"]:not(:has(.character-text)) .event-details {
+      color: #b5a8c2 !important;
+    }
+
+    .event-card[data-color="lavender"] .expand-indicator {
+      color: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"]:not(:has(.character-text)) .event-details li::marker {
+      color: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"] .event-details li:has(.character-text)::marker {
+      color: #8b7a9b;
+    }
+
+    /* ===== SLATE ===== */
+    .event-card[data-color="slate"] {
+      border-color: rgba(107, 122, 139, 0.3);
+    }
+
+    .event-card[data-color="slate"]::before {
+      background: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"] .event-title {
+      color: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"]:hover {
+      border-color: rgba(107, 122, 139, 0.6);
+      box-shadow: 0 6px 20px rgba(107, 122, 139, 0.3);
+    }
+
+    .event-card[data-color="slate"].expanded {
+      border-color: #6b7a8b;
+    }
+
+    .year-group:has(.event-card[data-color="slate"]) .year-number {
+      color: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"] .event-summary .character-text,
+    .event-card[data-color="slate"] .event-details .character-text {
+      color: #9aa8b5 !important;
+    }
+
+    .event-card[data-color="slate"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="slate"]:not(:has(.character-text)) .event-details {
+      color: #9aa8b5 !important;
+    }
+
+    .event-card[data-color="slate"] .expand-indicator {
+      color: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"]:not(:has(.character-text)) .event-details li::marker {
+      color: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"] .event-details li:has(.character-text)::marker {
+      color: #6b7a8b;
+    }
+
+    /* ===== DEFAULT (TEAL) ===== */
+    .event-card[data-color="default"] {
+      border-color: rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="default"]::before {
+      background: #7a9b8e;
+    }
+
+    .event-card[data-color="default"] .event-title,
+    .event-card[data-color="default"].character-event .event-title {
+      color: #7a9b8e;
+    }
+
+    .event-card[data-color="default"]:hover {
+      border-color: rgba(122, 155, 142, 0.6);
+      box-shadow: 0 6px 20px rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="default"].expanded {
+      border-color: #7a9b8e;
+    }
+
+    .year-group:has(.event-card[data-color="default"]) .year-number {
+      color: #7a9b8e;
+    }
+
+    .event-card[data-color="default"] .event-summary .character-text,
+    .event-card[data-color="default"] .event-details .character-text {
+      color: #a8c2b5 !important;
+    }
+
+    .event-card[data-color="default"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="default"]:not(:has(.character-text)) .event-details {
+      color: #a8c2b5 !important;
+    }
+
+    .event-card[data-color="default"] .expand-indicator {
+      color: #7a9b8e;
+    }
+
+    .event-card[data-color="default"]:not(:has(.character-text)) .event-details li::marker {
+      color: #7a9b8e;
+    }
+
+    .event-card[data-color="default"] .event-details li:has(.character-text)::marker {
+      color: #7a9b8e;
+    }
+
+    /* ===== MOSS ===== */
+    .event-card[data-color="moss"] {
+      border-color: rgba(122, 155, 110, 0.3);
+    }
+
+    .event-card[data-color="moss"]::before {
+      background: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"] .event-title {
+      color: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"]:hover {
+      border-color: rgba(122, 155, 110, 0.6);
+      box-shadow: 0 6px 20px rgba(122, 155, 110, 0.3);
+    }
+
+    .event-card[data-color="moss"].expanded {
+      border-color: #7a9b6e;
+    }
+
+    .year-group:has(.event-card[data-color="moss"]) .year-number {
+      color: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"] .event-summary .character-text,
+    .event-card[data-color="moss"] .event-details .character-text {
+      color: #a8c29a !important;
+    }
+
+    .event-card[data-color="moss"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="moss"]:not(:has(.character-text)) .event-details {
+      color: #a8c29a !important;
+    }
+
+    .event-card[data-color="moss"] .expand-indicator {
+      color: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"]:not(:has(.character-text)) .event-details li::marker {
+      color: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"] .event-details li:has(.character-text)::marker {
+      color: #7a9b6e;
+    }
+
+    /* ===== BRONZE ===== */
+    .event-card[data-color="bronze"] {
+      border-color: rgba(168, 139, 96, 0.3);
+    }
+
+    .event-card[data-color="bronze"]::before {
+      background: #a88b60;
+    }
+
+    .event-card[data-color="bronze"] .event-title {
+      color: #a88b60;
+    }
+
+    .event-card[data-color="bronze"]:hover {
+      border-color: rgba(168, 139, 96, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 139, 96, 0.3);
+    }
+
+    .event-card[data-color="bronze"].expanded {
+      border-color: #a88b60;
+    }
+
+    .year-group:has(.event-card[data-color="bronze"]) .year-number {
+      color: #a88b60;
+    }
+
+    .event-card[data-color="bronze"] .event-summary .character-text,
+    .event-card[data-color="bronze"] .event-details .character-text {
+      color: #c2b08a !important;
+    }
+
+    .event-card[data-color="bronze"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="bronze"]:not(:has(.character-text)) .event-details {
+      color: #c2b08a !important;
+    }
+
+    .event-card[data-color="bronze"] .expand-indicator {
+      color: #a88b60;
+    }
+
+    .event-card[data-color="bronze"]:not(:has(.character-text)) .event-details li::marker {
+      color: #a88b60;
+    }
+
+    .event-card[data-color="bronze"] .event-details li:has(.character-text)::marker {
+      color: #a88b60;
+    }
+
+    /* ===== RUST ===== */
+    .event-card[data-color="rust"] {
+      border-color: rgba(168, 122, 107, 0.3);
+    }
+
+    .event-card[data-color="rust"]::before {
+      background: #a87a6b;
+    }
+
+    .event-card[data-color="rust"] .event-title {
+      color: #a87a6b;
+    }
+
+    .event-card[data-color="rust"]:hover {
+      border-color: rgba(168, 122, 107, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 122, 107, 0.3);
+    }
+
+    .event-card[data-color="rust"].expanded {
+      border-color: #a87a6b;
+    }
+
+    .year-group:has(.event-card[data-color="rust"]) .year-number {
+      color: #a87a6b;
+    }
+
+    .event-card[data-color="rust"] .event-summary .character-text,
+    .event-card[data-color="rust"] .event-details .character-text {
+      color: #c2a89a !important;
+    }
+
+    .event-card[data-color="rust"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="rust"]:not(:has(.character-text)) .event-details {
+      color: #c2a89a !important;
+    }
+
+    .event-card[data-color="rust"] .expand-indicator {
+      color: #a87a6b;
+    }
+
+    .event-card[data-color="rust"]:not(:has(.character-text)) .event-details li::marker {
+      color: #a87a6b;
+    }
+
+    .event-card[data-color="rust"] .event-details li:has(.character-text)::marker {
+      color: #a87a6b;
+    }
+
+    /* ===== CRIMSON ===== */
+    .event-card[data-color="crimson"] {
+      border-color: rgba(168, 107, 107, 0.3);
+    }
+
+    .event-card[data-color="crimson"]::before {
+      background: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"] .event-title {
+      color: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"]:hover {
+      border-color: rgba(168, 107, 107, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 107, 107, 0.3);
+    }
+
+    .event-card[data-color="crimson"].expanded {
+      border-color: #a86b6b;
+    }
+
+    .year-group:has(.event-card[data-color="crimson"]) .year-number {
+      color: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"] .event-summary .character-text,
+    .event-card[data-color="crimson"] .event-details .character-text {
+      color: #c29a9a !important;
+    }
+
+    .event-card[data-color="crimson"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="crimson"]:not(:has(.character-text)) .event-details {
+      color: #c29a9a !important;
+    }
+
+    .event-card[data-color="crimson"] .expand-indicator {
+      color: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"]:not(:has(.character-text)) .event-details li::marker {
+      color: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"] .event-details li:has(.character-text)::marker {
+      color: #a86b6b;
+    }
+
+    /* ===== GRAY ===== */
+    .event-card[data-color="gray"] {
+      border-color: rgba(139, 139, 139, 0.3);
+    }
+
+    .event-card[data-color="gray"]::before {
+      background: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"] .event-title {
+      color: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"]:hover {
+      border-color: rgba(139, 139, 139, 0.6);
+      box-shadow: 0 6px 20px rgba(139, 139, 139, 0.3);
+    }
+
+    .event-card[data-color="gray"].expanded {
+      border-color: #8b8b8b;
+    }
+
+    .year-group:has(.event-card[data-color="gray"]) .year-number {
+      color: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"] .event-summary .character-text,
+    .event-card[data-color="gray"] .event-details .character-text {
+      color: #b5b5b5 !important;
+    }
+
+    .event-card[data-color="gray"]:not(:has(.character-text)) .event-summary,
+    .event-card[data-color="gray"]:not(:has(.character-text)) .event-details {
+      color: #b5b5b5 !important;
+    }
+
+    .event-card[data-color="gray"] .expand-indicator {
+      color: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"]:not(:has(.character-text)) .event-details li::marker {
+      color: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"] .event-details li:has(.character-text)::marker {
+      color: #8b8b8b;
     }
 
     .event-meta {
@@ -267,9 +671,10 @@
 
     .event-summary {
       color: #c2b294;
-      font-size: 0.9375rem;
+      font-size: 1.0625rem;
       margin-bottom: 0.5rem;
       font-style: italic;
+      line-height: 1.7;
     }
 
     .character-text {
@@ -281,10 +686,24 @@
       overflow: hidden;
       transition: max-height 0.3s ease;
       color: #d4c4a8;
-      font-size: 0.9375rem;
-      line-height: 1.7;
+      font-size: 1.0625rem;
+      line-height: 1.8;
       padding-top: 0;
       border-top: 1px solid transparent;
+    }
+
+    .event-details p {
+      margin-bottom: 1rem;
+    }
+
+    .event-details ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+      list-style-type: disc;
+    }
+
+    .event-details li {
+      margin-bottom: 0.5rem;
+      line-height: 1.7;
     }
 
     .event-card.expanded .event-details {
@@ -296,6 +715,38 @@
 
     .event-card.character-event.expanded .event-details {
       border-top-color: rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="lavender"].expanded .event-details {
+      border-top-color: rgba(139, 122, 155, 0.3);
+    }
+
+    .event-card[data-color="slate"].expanded .event-details {
+      border-top-color: rgba(107, 122, 139, 0.3);
+    }
+
+    .event-card[data-color="default"].expanded .event-details {
+      border-top-color: rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="moss"].expanded .event-details {
+      border-top-color: rgba(122, 155, 110, 0.3);
+    }
+
+    .event-card[data-color="bronze"].expanded .event-details {
+      border-top-color: rgba(168, 139, 96, 0.3);
+    }
+
+    .event-card[data-color="rust"].expanded .event-details {
+      border-top-color: rgba(168, 122, 107, 0.3);
+    }
+
+    .event-card[data-color="crimson"].expanded .event-details {
+      border-top-color: rgba(168, 107, 107, 0.3);
+    }
+
+    .event-card[data-color="gray"].expanded .event-details {
+      border-top-color: rgba(139, 139, 139, 0.3);
     }
 
     .event-image {
@@ -363,6 +814,31 @@
       display: none;
     }
 
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #1a2224, #1e2a2d);
+      color: #d4c4a8;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #c29d5a;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(194, 157, 90, 0.5);
+    }
+
     @media (max-width: 768px) {
       .header-content {
         padding: 0 1rem;
@@ -382,9 +858,8 @@
         width: 100%;
       }
 
-      .btn, .age-control {
+      .btn {
         width: 100%;
-        justify-content: center;
       }
 
       .timeline-container {
@@ -414,10 +889,12 @@
         <a href="index.html" class="nav-link">← Classic Timeline View</a>
         <a href="character-editor.html" class="nav-link">Edit Character Events</a>
       </div>
-      <h1>Chronicle of Azeroth - Compact View</h1>
+      <h1>Chronicle of Azeroth - Character Timeline</h1>
       <div class="controls">
-        <button class="btn" id="toggleEmpty">Show Empty Years</button>
-        <button class="btn" id="toggleCharacter">Show Character Only</button>
+        <div class="controls-group">
+          <button class="btn" id="toggleEmpty">Show Empty Years</button>
+          <button class="btn" id="toggleCharacter">Show Character Only</button>
+        </div>
         <div class="age-control">
           <label for="ageInput">Age at Year 40:</label>
           <input type="number" id="ageInput" value="35" min="1" max="10000">
@@ -427,6 +904,10 @@
   </div>
 
   <div class="timeline-container" id="timeline"></div>
+
+  <div class="scroll-top" id="scroll-top" onclick="scrollToTop()">
+    ↑
+  </div>
 
   <script src="timeline-data.js"></script>
   <script>
@@ -466,6 +947,16 @@
       return ageAtYear40 + (universalYear - 40);
     }
 
+    // Find the most recent world event title for inheritance
+    function findPreviousWorldEventTitle(year) {
+      for (let y = year; y >= startYear; y--) {
+        if (worldEvents[y] && worldEvents[y].title) {
+          return worldEvents[y].title;
+        }
+      }
+      return null;
+    }
+
     function createTimeline() {
       const container = document.getElementById('timeline');
       container.innerHTML = '';
@@ -476,23 +967,42 @@
       let eventsToShow = {};
       
       if (characterOnly) {
+        // Show only character events
         eventsToShow = { ...characterEvents };
+        // Add titles to character-only events
+        Object.keys(eventsToShow).forEach(year => {
+          if (!eventsToShow[year].title) {
+            const inheritedTitle = findPreviousWorldEventTitle(parseInt(year));
+            eventsToShow[year] = { 
+              ...eventsToShow[year], 
+              title: inheritedTitle 
+            };
+          }
+        });
       } else {
+        // Merge world events and character events
         eventsToShow = { ...worldEvents };
         Object.keys(characterEvents).forEach(year => {
           if (eventsToShow[year]) {
             const worldEvent = eventsToShow[year];
             const charEvent = characterEvents[year];
             eventsToShow[year] = {
-              title: worldEvent.title || charEvent.title,
+              title: charEvent.title || worldEvent.title,
               summary: "<span class='character-text'>" + charEvent.summary + "</span>" + (worldEvent.summary ? "<br><br>" + worldEvent.summary : ""),
               details: (charEvent.details ? "<span class='character-text'>" + charEvent.details + "</span>" : "") + (worldEvent.details ? "<br><br>" + worldEvent.details : ""),
               image: worldEvent.image || charEvent.image,
               imageFocus: worldEvent.imageFocus || charEvent.imageFocus,
+              color: charEvent.color,
               isCharacterEvent: true
             };
           } else {
-            eventsToShow[year] = { ...characterEvents[year], isCharacterEvent: true };
+            // Character event without world event - inherit title from previous world event
+            const inheritedTitle = findPreviousWorldEventTitle(parseInt(year));
+            eventsToShow[year] = { 
+              ...characterEvents[year], 
+              title: characterEvents[year].title || inheritedTitle,
+              isCharacterEvent: true 
+            };
           }
         });
       }
@@ -512,12 +1022,7 @@
         yearNumber.className = 'year-number';
         yearNumber.textContent = `Year ${year}`;
         
-        const yearSubtitle = document.createElement('div');
-        yearSubtitle.className = 'year-subtitle';
-        yearSubtitle.innerHTML = `KC ${toKingsCalendar(year)} • Age ${getCharacterAge(year)}`;
-        
         yearHeader.appendChild(yearNumber);
-        yearHeader.appendChild(yearSubtitle);
         yearGroup.appendChild(yearHeader);
 
         const eventsGrid = document.createElement('div');
@@ -531,6 +1036,13 @@
           card.className = 'event-card';
           if (isCharacterEvent) {
             card.classList.add('character-event');
+          }
+          
+          // Add color attribute if event has a color
+          if (event.color) {
+            card.setAttribute('data-color', event.color);
+          } else if (isCharacterEvent) {
+            card.setAttribute('data-color', 'default');
           }
 
           const headerRow = document.createElement('div');
@@ -554,14 +1066,38 @@
           if (event.summary) {
             const summary = document.createElement('div');
             summary.className = 'event-summary';
-            summary.innerHTML = event.summary;
+            
+            // For character-only mode, wrap everything in character-text if it's a character event
+            if (characterOnly && isCharacterEvent) {
+              summary.innerHTML = "<span class='character-text'>" + event.summary + "</span>";
+            } else {
+              summary.innerHTML = event.summary;
+            }
             card.appendChild(summary);
           }
 
           if (event.details) {
             const details = document.createElement('div');
             details.className = 'event-details';
-            details.innerHTML = event.details;
+            
+            // Convert <br><br> to bullet points
+            let detailsHTML = event.details;
+            const paragraphs = detailsHTML.split('<br><br>');
+            
+            if (paragraphs.length > 1) {
+              detailsHTML = '<ul>' + paragraphs.map(p => {
+                // Clean up the paragraph
+                const cleaned = p.trim().replace(/<br>/gi, ' ');
+                return cleaned ? '<li>' + cleaned + '</li>' : '';
+              }).filter(p => p).join('') + '</ul>';
+            }
+            
+            // For character-only mode, wrap in character-text if it's a character event
+            if (characterOnly && isCharacterEvent && !detailsHTML.includes('character-text')) {
+              detailsHTML = "<span class='character-text'>" + detailsHTML + "</span>";
+            }
+            
+            details.innerHTML = detailsHTML;
             card.appendChild(details);
           }
 
@@ -613,6 +1149,23 @@
       const age = parseInt(this.value) || 35;
       saveCharacterAge(age);
       createTimeline();
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Show/hide scroll to top button
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.getElementById('scroll-top');
+      if (window.pageYOffset > 300) {
+        scrollTop.style.display = 'flex';
+      } else {
+        scrollTop.style.display = 'none';
+      }
     });
 
     createTimeline();

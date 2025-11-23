@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Character Event Editor - WoW Timeline</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
     
     * {
       box-sizing: border-box;
@@ -14,7 +14,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: "Crimson Text", serif;
       background: linear-gradient(135deg, #0f1416 0%, #1a2224 50%, #1e2a2d 100%);
       color: #d4c4a8;
       line-height: 1.6;
@@ -50,6 +50,7 @@
     }
 
     h1 {
+      font-family: "Cinzel", serif;
       font-size: 2rem;
       font-weight: 700;
       color: #f2e4c4;
@@ -172,6 +173,7 @@
     }
 
     .event-year {
+      font-family: "Cinzel", serif;
       font-size: 1.5rem;
       font-weight: 700;
       color: #c29d5a;
@@ -183,10 +185,163 @@
     }
 
     .event-title {
+      font-family: "Cinzel", serif;
       font-size: 1.125rem;
       font-weight: 600;
-      color: #7a9b8e;
       margin-bottom: 0.5rem;
+    }
+
+    /* Color inheritance for event cards */
+    .event-card[data-color="lavender"] {
+      border-color: rgba(139, 122, 155, 0.3);
+    }
+
+    .event-card[data-color="lavender"]:hover {
+      border-color: rgba(139, 122, 155, 0.6);
+      box-shadow: 0 6px 20px rgba(139, 122, 155, 0.3);
+    }
+
+    .event-card[data-color="lavender"] .event-year,
+    .event-card[data-color="lavender"] .event-title {
+      color: #8b7a9b;
+    }
+
+    .event-card[data-color="lavender"] .event-summary,
+    .event-card[data-color="lavender"] .event-details {
+      color: #b5a8c2;
+    }
+
+    .event-card[data-color="slate"] {
+      border-color: rgba(107, 122, 139, 0.3);
+    }
+
+    .event-card[data-color="slate"]:hover {
+      border-color: rgba(107, 122, 139, 0.6);
+      box-shadow: 0 6px 20px rgba(107, 122, 139, 0.3);
+    }
+
+    .event-card[data-color="slate"] .event-year,
+    .event-card[data-color="slate"] .event-title {
+      color: #6b7a8b;
+    }
+
+    .event-card[data-color="slate"] .event-summary,
+    .event-card[data-color="slate"] .event-details {
+      color: #9aa8b5;
+    }
+
+    .event-card[data-color="default"] {
+      border-color: rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="default"]:hover {
+      border-color: rgba(122, 155, 142, 0.6);
+      box-shadow: 0 6px 20px rgba(122, 155, 142, 0.3);
+    }
+
+    .event-card[data-color="default"] .event-year,
+    .event-card[data-color="default"] .event-title {
+      color: #7a9b8e;
+    }
+
+    .event-card[data-color="default"] .event-summary,
+    .event-card[data-color="default"] .event-details {
+      color: #a8c2b5;
+    }
+
+    .event-card[data-color="moss"] {
+      border-color: rgba(122, 155, 110, 0.3);
+    }
+
+    .event-card[data-color="moss"]:hover {
+      border-color: rgba(122, 155, 110, 0.6);
+      box-shadow: 0 6px 20px rgba(122, 155, 110, 0.3);
+    }
+
+    .event-card[data-color="moss"] .event-year,
+    .event-card[data-color="moss"] .event-title {
+      color: #7a9b6e;
+    }
+
+    .event-card[data-color="moss"] .event-summary,
+    .event-card[data-color="moss"] .event-details {
+      color: #a8c29a;
+    }
+
+    .event-card[data-color="bronze"] {
+      border-color: rgba(168, 139, 96, 0.3);
+    }
+
+    .event-card[data-color="bronze"]:hover {
+      border-color: rgba(168, 139, 96, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 139, 96, 0.3);
+    }
+
+    .event-card[data-color="bronze"] .event-year,
+    .event-card[data-color="bronze"] .event-title {
+      color: #a88b60;
+    }
+
+    .event-card[data-color="bronze"] .event-summary,
+    .event-card[data-color="bronze"] .event-details {
+      color: #c2b08a;
+    }
+
+    .event-card[data-color="rust"] {
+      border-color: rgba(168, 122, 107, 0.3);
+    }
+
+    .event-card[data-color="rust"]:hover {
+      border-color: rgba(168, 122, 107, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 122, 107, 0.3);
+    }
+
+    .event-card[data-color="rust"] .event-year,
+    .event-card[data-color="rust"] .event-title {
+      color: #a87a6b;
+    }
+
+    .event-card[data-color="rust"] .event-summary,
+    .event-card[data-color="rust"] .event-details {
+      color: #c2a89a;
+    }
+
+    .event-card[data-color="crimson"] {
+      border-color: rgba(168, 107, 107, 0.3);
+    }
+
+    .event-card[data-color="crimson"]:hover {
+      border-color: rgba(168, 107, 107, 0.6);
+      box-shadow: 0 6px 20px rgba(168, 107, 107, 0.3);
+    }
+
+    .event-card[data-color="crimson"] .event-year,
+    .event-card[data-color="crimson"] .event-title {
+      color: #a86b6b;
+    }
+
+    .event-card[data-color="crimson"] .event-summary,
+    .event-card[data-color="crimson"] .event-details {
+      color: #c29a9a;
+    }
+
+    .event-card[data-color="gray"] {
+      border-color: rgba(139, 139, 139, 0.3);
+    }
+
+    .event-card[data-color="gray"]:hover {
+      border-color: rgba(139, 139, 139, 0.6);
+      box-shadow: 0 6px 20px rgba(139, 139, 139, 0.3);
+    }
+
+    .event-card[data-color="gray"] .event-year,
+    .event-card[data-color="gray"] .event-title {
+      color: #8b8b8b;
+    }
+
+    .event-card[data-color="gray"] .event-summary,
+    .event-card[data-color="gray"] .event-details {
+      color: #b5b5b5;
     }
 
     .event-summary {
@@ -222,6 +377,7 @@
     }
 
     .form-section h2 {
+      font-family: "Cinzel", serif;
       font-size: 1.5rem;
       color: #f2e4c4;
       margin-bottom: 1.5rem;
@@ -240,23 +396,84 @@
     }
 
     .form-group input,
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
       width: 100%;
       padding: 0.75rem;
       background: rgba(15, 20, 22, 0.8);
       border: 1px solid #c29d5a;
       border-radius: 6px;
       color: #d4c4a8;
-      font-family: 'Inter', sans-serif;
+      font-family: "Crimson Text", serif;
       font-size: 0.9375rem;
       transition: border-color 0.2s;
     }
 
     .form-group input:focus,
-    .form-group textarea:focus {
+    .form-group textarea:focus,
+    .form-group select:focus {
       outline: none;
       border-color: #f2e4c4;
       box-shadow: 0 0 0 2px rgba(194, 157, 90, 0.2);
+    }
+
+    .color-picker {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .color-option.selected {
+      border-color: #f2e4c4;
+      box-shadow: 0 0 0 2px #c29d5a;
+      transform: scale(1.1);
+    }
+
+    .color-option[data-color="lavender"] {
+      background: linear-gradient(135deg, #8b7a9b, #7b6a8b);
+    }
+
+    .color-option[data-color="slate"] {
+      background: linear-gradient(135deg, #6b7a8b, #5b6a7b);
+    }
+
+    .color-option[data-color="default"] {
+      background: linear-gradient(135deg, #7a9b8e, #6a8b7e);
+    }
+
+    .color-option[data-color="moss"] {
+      background: linear-gradient(135deg, #7a9b6e, #6a8b5e);
+    }
+
+    .color-option[data-color="bronze"] {
+      background: linear-gradient(135deg, #a88b60, #987b50);
+    }
+
+    .color-option[data-color="rust"] {
+      background: linear-gradient(135deg, #a87a6b, #986a5b);
+    }
+
+    .color-option[data-color="crimson"] {
+      background: linear-gradient(135deg, #a86b6b, #985b5b);
+    }
+
+    .color-option[data-color="gray"] {
+      background: linear-gradient(135deg, #8b8b8b, #7b7b7b);
     }
 
     .form-group textarea {
@@ -316,6 +533,7 @@
     }
 
     .stat-label {
+      font-family: "Cinzel", serif;
       font-size: 0.875rem;
       color: #a89b82;
     }
@@ -339,14 +557,15 @@
     }
 
     .modal-content {
-      background: #0f1823;
-      border: 1px solid #2a3f5f;
+      background: linear-gradient(135deg, rgba(26, 34, 36, 0.98), rgba(30, 42, 45, 0.98));
+      border: 1px solid #c29d5a;
       border-radius: 8px;
       padding: 2rem;
       max-width: 600px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     }
 
     .modal-header {
@@ -357,14 +576,15 @@
     }
 
     .modal-header h2 {
+      font-family: "Cinzel", serif;
       font-size: 1.5rem;
-      color: #f0f0f0;
+      color: #f2e4c4;
     }
 
     .modal-close {
       background: none;
       border: none;
-      color: #6a8aaa;
+      color: #a89b82;
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0;
@@ -378,8 +598,8 @@
     }
 
     .modal-close:hover {
-      background: #1a2332;
-      color: #e0e0e0;
+      background: rgba(194, 157, 90, 0.2);
+      color: #f2e4c4;
     }
 
     @media (max-width: 768px) {
@@ -417,9 +637,9 @@
       position: fixed;
       top: 2rem;
       right: 2rem;
-      background: #2d5a3a;
+      background: linear-gradient(135deg, #2d5a3a, #254a30);
       border: 1px solid #4a7f5a;
-      color: #fff;
+      color: #d4c4a8;
       padding: 1rem 1.5rem;
       border-radius: 6px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -439,7 +659,7 @@
     }
 
     .notification.error {
-      background: #5a2d2d;
+      background: linear-gradient(135deg, #5a2d2d, #4a2020);
       border-color: #7f4a4a;
     }
   </style>
@@ -451,7 +671,7 @@
       <p class="subtitle">Add and manage your custom character events for the World of Warcraft timeline</p>
       <div class="nav-links">
         <a href="index.html" class="nav-link">← Classic Timeline View</a>
-        <a href="compact-timeline.html" class="nav-link">← Compact Timeline View</a>
+        <a href="compact-timeline.html" class="nav-link">← Character Timeline</a>
       </div>
     </div>
 
@@ -500,8 +720,8 @@
 
         <div class="form-group">
           <label for="eventTitle">Title (Optional)</label>
-          <input type="text" id="eventTitle" placeholder="Leave blank to use the world event title">
-          <small>If blank, will inherit the title from world events for this year</small>
+          <input type="text" id="eventTitle" placeholder="Leave blank to inherit world event title">
+          <small>If blank, will inherit the title from world events or the most recent previous world event</small>
         </div>
 
         <div class="form-group">
@@ -517,15 +737,18 @@
         </div>
 
         <div class="form-group">
-          <label for="eventImage">Image URL (Optional)</label>
-          <input type="url" id="eventImage" placeholder="https://example.com/image.jpg">
-          <small>Direct link to an image for this event</small>
-        </div>
-
-        <div class="form-group">
-          <label for="eventImageFocus">Image Focus Position (Optional)</label>
-          <input type="text" id="eventImageFocus" placeholder="50% 50%">
-          <small>CSS object-position value (e.g., "50% 30%" or "center top")</small>
+          <label>Event Color</label>
+          <div class="color-picker">
+            <div class="color-option" data-color="lavender" onclick="selectColor('lavender')" title="Lavender"></div>
+            <div class="color-option" data-color="slate" onclick="selectColor('slate')" title="Slate"></div>
+            <div class="color-option selected" data-color="default" onclick="selectColor('default')" title="Default (Teal)"></div>
+            <div class="color-option" data-color="moss" onclick="selectColor('moss')" title="Moss"></div>
+            <div class="color-option" data-color="bronze" onclick="selectColor('bronze')" title="Bronze"></div>
+            <div class="color-option" data-color="rust" onclick="selectColor('rust')" title="Rust"></div>
+            <div class="color-option" data-color="crimson" onclick="selectColor('crimson')" title="Crimson"></div>
+            <div class="color-option" data-color="gray" onclick="selectColor('gray')" title="Gray"></div>
+          </div>
+          <input type="hidden" id="eventColor" value="default">
         </div>
 
         <input type="hidden" id="editingYear" value="">
@@ -541,6 +764,7 @@
   <!-- Hidden file input for import -->
   <input type="file" id="importFile" accept=".json" style="display: none" onchange="handleImport(event)">
 
+  <script src="timeline-data.js"></script>
   <script>
     const STORAGE_KEY = 'wowTimelineCharacterEvents';
 
@@ -555,6 +779,16 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
       renderEvents();
       updateStats();
+    }
+
+    // Find the most recent world event title for inheritance
+    function findPreviousWorldEventTitle(year) {
+      for (let y = year; y >= 0; y--) {
+        if (worldEvents[y] && worldEvents[y].title) {
+          return worldEvents[y].title;
+        }
+      }
+      return '(No Title)';
     }
 
     // Render all events
@@ -576,17 +810,35 @@
 
       years.forEach(year => {
         const event = events[year];
+        
+        // Determine display title
+        let displayTitle = event.title;
+        if (!displayTitle) {
+          // Check if world event has title for this year
+          if (worldEvents[year] && worldEvents[year].title) {
+            displayTitle = worldEvents[year].title;
+          } else {
+            // Inherit from previous world event
+            displayTitle = findPreviousWorldEventTitle(parseInt(year));
+          }
+        }
+        
         const card = document.createElement('div');
         card.className = 'event-card';
+        
+        // Add color attribute if event has a color
+        if (event.color) {
+          card.setAttribute('data-color', event.color);
+        } else {
+          card.setAttribute('data-color', 'default');
+        }
         
         card.innerHTML = `
           <div class="event-card-header">
             <div class="event-year">Year ${year}</div>
             <div class="event-content">
-              ${event.title ? `<div class="event-title">${event.title}</div>` : ''}
+              <div class="event-title">${displayTitle}</div>
               <div class="event-summary">${event.summary}</div>
-              ${event.details ? `<div class="event-details">Has additional details</div>` : ''}
-              ${event.image ? `<div class="event-details">Has image</div>` : ''}
             </div>
             <div class="event-actions">
               <button class="btn btn-small" onclick="editEvent(${year})">Edit</button>
@@ -615,11 +867,28 @@
       }
     }
 
+    // Select color
+    function selectColor(color) {
+      document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      document.querySelector(`.color-option[data-color="${color}"]`).classList.add('selected');
+      document.getElementById('eventColor').value = color;
+    }
+
     // Open modal for adding
     function openAddModal() {
       document.getElementById('modalTitle').textContent = 'Add New Event';
       document.getElementById('eventForm').reset();
       document.getElementById('editingYear').value = '';
+      
+      // Reset color picker to default
+      document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      document.querySelector('.color-option[data-color="default"]').classList.add('selected');
+      document.getElementById('eventColor').value = 'default';
+      
       document.getElementById('eventModal').classList.add('active');
     }
 
@@ -633,8 +902,15 @@
       document.getElementById('eventTitle').value = event.title || '';
       document.getElementById('eventSummary').value = event.summary || '';
       document.getElementById('eventDetails').value = event.details || '';
-      document.getElementById('eventImage').value = event.image || '';
-      document.getElementById('eventImageFocus').value = event.imageFocus || '';
+      
+      // Set color picker
+      const color = event.color || 'default';
+      document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      document.querySelector(`.color-option[data-color="${color}"]`).classList.add('selected');
+      document.getElementById('eventColor').value = color;
+      
       document.getElementById('editingYear').value = year;
       
       document.getElementById('eventModal').classList.add('active');
@@ -662,8 +938,7 @@
         title: document.getElementById('eventTitle').value.trim() || undefined,
         summary: document.getElementById('eventSummary').value.trim(),
         details: document.getElementById('eventDetails').value.trim() || undefined,
-        image: document.getElementById('eventImage').value.trim() || undefined,
-        imageFocus: document.getElementById('eventImageFocus').value.trim() || undefined
+        color: document.getElementById('eventColor').value === 'default' ? undefined : document.getElementById('eventColor').value
       };
       
       // Remove undefined properties

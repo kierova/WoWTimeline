@@ -90,24 +90,21 @@
       cursor: pointer;
       font-family: "Cinzel", serif;
       font-weight: 600;
+      font-size: 1rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 200px;
+      height: 48px;
     }
 
     .toggle-btn:hover {
       background: linear-gradient(135deg, #1e2a2d, #253034);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(194, 157, 90, 0.4);
-    }
-
-    .toggle-btn.character-only {
-      border-color: #7a9b8e;
-    }
-
-    .toggle-btn.character-only:hover {
-      box-shadow: 0 6px 20px rgba(122, 155, 142, 0.3);
     }
 
     .toggle-btn.view-link {
@@ -172,6 +169,7 @@
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
+      border-color: #c29d5a;
     }
 
     .event::after {
@@ -186,19 +184,6 @@
       transition: opacity 0.3s ease;
       border-radius: 13px;
       z-index: -1;
-    }
-
-    .event.character-event {
-      border-color: #7a9b8e;
-    }
-
-    .event.character-event::after {
-      background: linear-gradient(135deg, #7a9b8e, #8fa596);
-    }
-
-    .event.character-event::before {
-      background: radial-gradient(circle, #7a9b8e, #1a2224) !important;
-      box-shadow: 0 0 0 3px #0f1416, 0 0 0 6px #7a9b8e, 0 0 15px rgba(122, 155, 142, 0.5) !important;
     }
 
     .event:hover::after {
@@ -229,14 +214,6 @@
       position: relative;
     }
 
-    .event.character-event h3 {
-      color: #7a9b8e;
-    }
-
-    .character-text {
-      color: #8fa596;
-    }
-
     .date-display {
       text-align: right;
       font-family: "Cinzel", serif;
@@ -254,14 +231,6 @@
       display: block;
       font-size: 0.8rem;
       opacity: 0.8;
-    }
-
-    .character-age {
-      color: #a89b82;
-      display: block;
-      font-size: 0.75rem;
-      opacity: 0.9;
-      font-style: italic;
     }
 
     .event-summary {
@@ -284,10 +253,6 @@
       max-height: 0;
       overflow: hidden;
       transition: all 0.3s ease;
-    }
-
-    .event.character-event .event-details {
-      border-top-color: rgba(122, 155, 142, 0.3);
     }
 
     .event.expanded .event-details {
@@ -364,11 +329,6 @@
       cursor: pointer;
     }
 
-    .event-image.character-image {
-      border-color: rgba(122, 155, 142, 0.3);
-      color: rgba(122, 155, 142, 0.5);
-    }
-
     .event-image.invisible {
       opacity: 0;
       pointer-events: none;
@@ -389,10 +349,6 @@
       transform: translateY(-5px) scale(1.02);
       box-shadow: 0 12px 40px rgba(0,0,0,0.5);
       border-color: rgba(194, 157, 90, 0.6);
-    }
-
-    .event-image.character-image:hover {
-      border-color: rgba(122, 155, 142, 0.6);
     }
 
     .event-image.invisible:hover {
@@ -508,45 +464,10 @@
         <button class="toggle-btn" onclick="toggleEmptyEvents()">
           <span id="toggle-text">Show Empty Years</span>
         </button>
-        
-        <button class="toggle-btn character-only" onclick="toggleCharacterOnly()">
-          <span id="character-toggle-text">Show Character Events Only</span>
-        </button>
 
         <a href="compact-timeline.html" class="toggle-btn view-link">
-          Compact View
+          Character Timeline
         </a>
-
-        <a href="character-editor.html" class="toggle-btn view-link">
-          Edit Character Events
-        </a>
-      </div>
-      
-      <div class="controls-row">
-        <label for="character-age" style="font-family: 'Cinzel', serif; color: #d4c4a8; margin-right: 0.5rem;">
-          Character's age at Year 40:
-        </label>
-        <input 
-          type="number" 
-          id="character-age" 
-          min="1" 
-          max="10000" 
-          value="35"
-          onchange="updateCharacterAges()"
-          style="
-            background: linear-gradient(135deg, #1a2224, #1e2a2d);
-            color: #d4c4a8;
-            border: 2px solid #c29d5a;
-            padding: 0.5rem;
-            border-radius: 5px;
-            font-family: 'Cinzel', serif;
-            width: 80px;
-            text-align: center;
-          "
-        />
-        <span style="font-family: 'Cinzel', serif; color: #f2e4c4; margin-left: 0.5rem; font-size: 0.9rem;">
-          years old
-        </span>
       </div>
     </div>
     
@@ -563,43 +484,12 @@
 
   <script src="timeline-data.js"></script>
   <script>
-    const STORAGE_KEY = 'wowTimelineCharacterEvents';
-    const AGE_STORAGE_KEY = 'wowTimelineCharacterAge';
     const startYear = 0;
     const endYear = 50;
     let showEmpty = false;
-    let characterOnly = false;
-
-    // Load character events from localStorage
-    function loadCharacterEvents() {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : {};
-    }
-
-    // Load character age from localStorage
-    function loadCharacterAge() {
-      const stored = localStorage.getItem(AGE_STORAGE_KEY);
-      return stored ? parseInt(stored) : 35;
-    }
-
-    // Save character age to localStorage
-    function saveCharacterAge(age) {
-      localStorage.setItem(AGE_STORAGE_KEY, age.toString());
-    }
-
-    // Initialize age input with stored value
-    document.getElementById('character-age').value = loadCharacterAge();
-
-    // Get character events (from localStorage)
-    const characterEvents = loadCharacterEvents();
 
     function toKingsCalendar(universalYear) {
       return universalYear + 592;
-    }
-
-    function getCharacterAge(universalYear) {
-      const ageAtYear40 = parseInt(document.getElementById('character-age').value) || 35;
-      return ageAtYear40 + (universalYear - 40);
     }
 
     function syncImageHeights() {
@@ -627,19 +517,6 @@
       createTimeline();
     }
 
-    function toggleCharacterOnly() {
-      characterOnly = !characterOnly;
-      document.getElementById('character-toggle-text').textContent = 
-        characterOnly ? 'Show All Events' : 'Show Character Events Only';
-      createTimeline();
-    }
-
-    function updateCharacterAges() {
-      const age = parseInt(document.getElementById('character-age').value) || 35;
-      saveCharacterAge(age);
-      createTimeline();
-    }
-
     function createTimeline() {
       const timeline = document.getElementById("timeline");
       timeline.innerHTML = '';
@@ -647,35 +524,8 @@
       let side = "left";
       let eventIndex = 0;
 
-      // Reload character events from localStorage each time
-      const currentCharacterEvents = loadCharacterEvents();
-
-      let eventsToShow = {};
-      
-      if (characterOnly) {
-        eventsToShow = { ...currentCharacterEvents };
-      } else {
-        eventsToShow = { ...worldEvents };
-        Object.keys(currentCharacterEvents).forEach(year => {
-          if (eventsToShow[year]) {
-            const worldEvent = eventsToShow[year];
-            const charEvent = currentCharacterEvents[year];
-            eventsToShow[year] = {
-              title: worldEvent.title || charEvent.title,
-              summary: "<span class='character-text'>" + charEvent.summary + "</span>" + (worldEvent.summary ? "<br><br>" + worldEvent.summary : ""),
-              details: (charEvent.details ? "<span class='character-text'>" + charEvent.details + "</span>" : "") + (worldEvent.details ? "<br><br>" + worldEvent.details : ""),
-              image: worldEvent.image || charEvent.image,
-              imageFocus: worldEvent.imageFocus || charEvent.imageFocus,
-              isCharacterEvent: true
-            };
-          } else {
-            eventsToShow[year] = { ...currentCharacterEvents[year], isCharacterEvent: true };
-          }
-        });
-      }
-
       for (let year = startYear; year <= endYear; year++) {
-        if (!eventsToShow[year] && !showEmpty) {
+        if (!worldEvents[year] && !showEmpty) {
           continue;
         }
 
@@ -688,25 +538,20 @@
 
         const universalYear = year;
         const kingsYear = toKingsCalendar(year);
-        const characterAge = getCharacterAge(year);
 
-        if (eventsToShow[year]) {
-          const isCharacterEvent = currentCharacterEvents.hasOwnProperty(year) || eventsToShow[year].isCharacterEvent;
-          if (isCharacterEvent) {
-            eventDiv.classList.add('character-event');
-          }
+        if (worldEvents[year]) {
+          const event = worldEvents[year];
 
           eventDiv.innerHTML = `
             <div class="event-header">
-              <h3>${eventsToShow[year].title || ''}</h3>
+              <h3>${event.title || ''}</h3>
               <div class="date-display">
                 <span class="universal-year">Year ${universalYear}</span>
                 <span class="kings-calendar">KC ${kingsYear}</span>
-                <span class="character-age">Age ${characterAge}</span>
               </div>
             </div>
-            <p class="event-summary">${eventsToShow[year].summary || ''}</p>
-            <div class="event-details">${eventsToShow[year].details || ''}</div>
+            <p class="event-summary">${event.summary || ''}</p>
+            <div class="event-details">${event.details || ''}</div>
           `;
           
           eventDiv.addEventListener('click', function() {
@@ -723,12 +568,8 @@
           const imageDiv = document.createElement("div");
           imageDiv.className = "event-image";
           imageDiv.style.setProperty('--index', eventIndex);
-          
-          if (isCharacterEvent) {
-            imageDiv.classList.add('character-image');
-          }
 
-          if (eventsToShow[year].image) {
+          if (event.image) {
             imageDiv.addEventListener('click', function() {
               eventDiv.classList.toggle('expanded');
               timelineItem.classList.toggle('expanded');
@@ -739,11 +580,11 @@
             });
             
             const img = document.createElement('img');
-            img.src = eventsToShow[year].image;
-            img.alt = eventsToShow[year].title || '';
+            img.src = event.image;
+            img.alt = event.title || '';
             
-            if (eventsToShow[year].imageFocus) {
-              img.style.objectPosition = eventsToShow[year].imageFocus;
+            if (event.imageFocus) {
+              img.style.objectPosition = event.imageFocus;
             }
             
             imageDiv.appendChild(img);
@@ -763,7 +604,6 @@
               <div class="date-display">
                 <span class="universal-year">Year ${universalYear}</span>
                 <span class="kings-calendar">KC ${kingsYear}</span>
-                <span class="character-age">Age ${characterAge}</span>
               </div>
             </div>
             <p class="event-summary">The chronicles remain silent for this year...</p>
@@ -823,8 +663,7 @@
         });
         
         const kingsYear = toKingsCalendar(currentYear);
-        const modeText = characterOnly ? ' (Character Events)' : '';
-        indicator.textContent = `Year ${currentYear} (KC ${kingsYear})${modeText}`;
+        indicator.textContent = `Year ${currentYear} (KC ${kingsYear})`;
       });
     }
 
