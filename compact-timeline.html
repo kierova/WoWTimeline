@@ -12,6 +12,9 @@
       margin: 0;
       padding: 0;
     }
+	html {
+	  font-size: 18px;
+	}
 
     body {
       font-family: "Crimson Text", serif;
@@ -20,7 +23,6 @@
       line-height: 1.6;
       position: relative;
       min-height: 100vh;
-      font-size: 105%;
     }
 
     body::before {
@@ -658,15 +660,18 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 0.25rem;
-      font-size: 0.75rem;
+	  font-family: "Cinzel", serif;
+	  font-weight: 600;
+      font-size: 0.9rem;
       color: #a89b82;
       white-space: nowrap;
     }
 
     .character-age {
       color: #8fa596;
-      font-style: italic;
+	  font-size: 0.8rem;
+	  opacity: 0.8;
+	  margin-top: -10px;
     }
 
     .event-summary {
